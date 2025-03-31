@@ -1,0 +1,27 @@
+(lang dune 3.17)
+
+(name tori)
+(version 0.8.0)
+
+(generate_opam_files true)
+
+(homepage https://tori.jutty.dev)
+(source (uri git+https://brew.bsd.cafe/tori/tori.git))
+
+(authors "Juno Takano <juno@jutty.dev>")
+
+(maintainers "Juno Takano <juno@jutty.dev>")
+
+(license GPL-3.0-only)
+
+(documentation https://tori.jutty.dev/docs)
+
+(package
+ (name tori)
+ (synopsis "Track system configurations and replicate them")
+ (description "tori lets you define several characteristics of a unix system and track how they change along time, tracking how they changed and choosing whether or not to commit them. It aims for portability and declarative configuration practices, meaning you tell it what your system is, not how to reproduce it.")
+ (depends ocaml)
+ (tags
+  ("operating systems" "unix" "configuration management")))
+
+; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
