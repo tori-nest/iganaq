@@ -18,26 +18,24 @@ As a program that can brick your system if something goes wrong, it's really imp
 
 Each language will be used to implement a simple command-line interface that fulfills the specification below. "Simple" means the goal is not to cover corner cases, but to prototype and make a decision based on language syntax, ergonomics, expressiveness, documentation, ecosystem, tooling and overall experience.
 
-    Iganaq Napkin Spec
+                               Iganaq Napkin Spec
 
-    A1. 'print' refers to messages for users. They MUST always be printed.
-    A2. 'log' refers to messages for programmers. They MUST be printed
-    only if DEBUG is set in the environment and MUST be preceded by ' [log] '.
+      A1. 'print' refers to messages for users. They MUST always be printed.
+      A2. 'log' refers to messages for programmers. They MUST be printed only if
+          DEBUG is set in the environment and MUST be preceded by ' [log] '.
 
     A3.1. Before parsing the user arguments, a configuration file at
-    $XDG_CONFIG_DIR/tori/tori.conf MUST be read for a line such as:
-
-        su_command = doas
-
+          $XDG_CONFIG_DIR/tori/tori.conf MUST be read for a line such as:
+          'su_command = doas'.
     A3.2. If this line is not found, the su_command MUST default to 'su -c'.
     A3.3. If it is found, the su_command used MUST be whatever was specified.
     A3.4. Whatever su_command MUST be validated once for presence at the path
           provided or obtained from $PATH, executability and running 'true'
           with exit code 0.
 
-    A4. The 'command' is the first argument passed to the program.
-    A5. The 'arguments' are all but the first argument passed to the program.
-    A6. If a command takes no arguments, they MAY be silently ignored.
+      A4. The 'command' is the first argument passed to the program.
+      A5. The 'arguments' are all but the first argument passed to the program.
+      A6. If a command takes no arguments, they MAY be silently ignored.
 
     B1.1. The commands in the listing below MUST all be implemented
     B1.2. In the listing below, the left side of '->' is the command, and the
@@ -60,5 +58,6 @@ Each language will be used to implement a simple command-line interface that ful
     B2.9. [any other input] -> MUST print 'Unrecognized command: [command]',
           a newline, '<short help>' and exit with status code 1
 
-    Z1. for the implementation to be 'finished', tests MUST have been written
-    to cover all of its requirements and these tests MUST pass consistently
+      Z1. for the implementation to be 'finished', tests MUST cover all of its
+          requirements and these tests MUST pass consistently
+
