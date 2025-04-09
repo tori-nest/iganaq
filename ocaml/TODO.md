@@ -1,0 +1,13 @@
+- [ ] Match test coverage with spec requirements
+- [ ] Simplify Reader
+- [ ] Create interface files
+    - [ ] Move comment on top of Parsers.Argument.say to the interface doc file
+- [ ] Try out doc generation
+- [ ] Simplify and analyze System.File
+- [ ] Add log function and match spec
+    - [ ] Output begins with ' [log] '
+    - [ ] Only prints if DEBUG is set
+- [ ] Get su command from $XDG_CONFIG_HOME/tori/tori.conf and use it for pkg
+    - [ ] Check if working
+- [ ] Command 'user': print the output of 'whoami'
+- [ ] Unrecognized command: exit code 1

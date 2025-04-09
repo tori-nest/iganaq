@@ -1,2 +1,4 @@
 (test
- (name test_tori))
+    (name test_tori)
+    (libraries tori)
+)

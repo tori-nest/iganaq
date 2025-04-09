@@ -1,2 +1,6 @@
 (library
- (name tori))
+    (name tori)
+    (libraries unix)
+)
+
+(include_subdirs qualified)
