@@ -20,7 +20,7 @@ let seed: schema = {
         };
         help = {
             short = "Use 'tori help' for usage instructions";
-            long = "<help message>";
+            long = "<long help>";
         };
     };
     output = {

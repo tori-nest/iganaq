@@ -13,7 +13,7 @@ let interpret (past: Schema.schema) (input: string list): Schema.schema =
     match input with
     | "pkg" :: tail -> System.Package.merge past tail
     | "os" :: _ -> say (System.File.read "/etc/os-release")
-    | "host" :: _ -> say (System.Process.Reader.read [||] "hostname").output
+    | "user" :: _ -> say (System.Process.Reader.read [||] "whoami").output
     | "echo" :: tail -> say (String.concat " " tail)
     | ("version" | "-v" | "--version") :: _ ->
         say (Schema.format_version future.meta.version)
