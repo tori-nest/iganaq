@@ -2,7 +2,7 @@ open Qol
 
 type version = { major: int; minor: int; patch: int }
 type help = { short: string; long: string }
-type meta = { version: version; help: help }
+type meta = { version: version; help: help; status: int }
 
 type output = { message: string; }
 
@@ -22,6 +22,7 @@ let seed: schema = {
             short = "<short help>";
             long = "<long help>";
         };
+        status = 0;
     };
     output = {
         message = "";

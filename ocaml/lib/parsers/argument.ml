@@ -2,7 +2,6 @@ let interpret (past: Schema.schema) (input: string list): Schema.schema =
 
     let future = { past with output = { message = "" } } in
 
-    (* say is useful when the only change to future is the output message *)
     let say (message: string) =
         { future with output = { message = message } } in
 
@@ -19,5 +18,12 @@ let interpret (past: Schema.schema) (input: string list): Schema.schema =
         say (Schema.format_version future.meta.version)
     | ("help" | "-h" | "--help") :: _ -> say future.meta.help.long
     | head :: _ ->
-        say ("Unrecognized command: " ^ head ^ "\n" ^ future.meta.help.short)
+        { future with
+            output = {
+                message =
+                    ("Unrecognized command: " ^ head ^ "\n"
+                        ^ future.meta.help.short)
+            };
+            meta = { future.meta with status = 1 };
+        }
     | _ -> future
