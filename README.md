@@ -18,11 +18,11 @@ As a program that can brick your system if something goes wrong, it's really imp
 
 Each language will be used to implement a simple command-line interface that fulfills the specification below. "Simple" means the goal is not to cover corner cases, but to prototype and make a decision based on language syntax, ergonomics, expressiveness, documentation, ecosystem, tooling and overall experience.
 
-                               Iganaq Napkin Spec
+                               Iganaq Napkin Spec v0
 
       A1. 'print' refers to messages for users. They MUST always be printed.
-      A2. 'log' refers to messages for programmers. They MUST be printed only if
-          DEBUG is set in the environment and MUST be preceded by ' [log] '.
+      A2. 'log' refers to messages for programmers. They MUST be printed only
+          if DEBUG is set in the environment and MUST be preceded by ' [log] '.
 
     A3.1. Before parsing the user arguments, a configuration file at
           $XDG_CONFIG_DIR/tori/tori.conf MUST be read for a line such as:
