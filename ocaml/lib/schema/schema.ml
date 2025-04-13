@@ -1,4 +1,4 @@
-open Qol
+open Utilities.Aliases
 
 type version = { major: int; minor: int; patch: int }
 type help = { short: string; long: string }

@@ -1,4 +1,4 @@
-open Qol
+open Utilities.Aliases
 
 let run (command: string) (arguments: string list) =
     match Unix.fork () with

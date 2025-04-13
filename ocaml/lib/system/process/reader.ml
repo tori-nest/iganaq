@@ -1,4 +1,4 @@
-open Qol
+open Utilities.Aliases
 
 type output = { output: string; error: string; status: string; }
 
