@@ -19,12 +19,12 @@ let seed: schema = {
             patch = 0;
         };
         help = {
-            short = "Use 'tori help' for usage instructions";
+            short = "<short help>";
             long = "<long help>";
         };
     };
     output = {
-        message = "Use command 'help' for help";
+        message = "";
     };
     host = {
         os = Unknown;
