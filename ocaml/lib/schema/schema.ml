@@ -4,12 +4,12 @@ type version = { major: int; minor: int; patch: int }
 type help = { short: string; long: string }
 type meta = { version: version; help: help; status: int }
 
-type output = { message: string; }
+type output = { main: string; log: string }
 
 type os = Unknown | FreeBSD | Void | Alpine
-type host = { os: os; name: string; }
+type host = { os: os; name: string }
 
-type schema = { meta: meta; output: output; host: host; }
+type schema = { meta: meta; output: output; host: host }
 
 let seed: schema = {
     meta = {
@@ -25,7 +25,10 @@ let seed: schema = {
         status = 0;
     };
     output = {
-        message = "";
+        (* could be lists of strings or lists of a dedicated type with message,
+           log level, time and origin in code (e.g. module and function) *)
+        main = "";
+        log = "";
     };
     host = {
         os = Unknown;

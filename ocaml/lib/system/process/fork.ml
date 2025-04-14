@@ -1,11 +1,9 @@
-open Utilities.Aliases
-
-let run (command: string) (arguments: string list) =
+let run (command: Command.command): Command.command =
     match Unix.fork () with
-    | 0 -> Unix.execvp command (Array.of_list arguments)
+    | 0 -> Unix.execvp command.name (Array.of_list command.arguments)
     | pid -> let (_, status) = Unix.waitpid [] pid in
         match status with
-        | Unix.WEXITED 0 -> ()
-        | Unix.WEXITED n -> print ("Process exited with code " ^ str_int n)
-        | Unix.WSIGNALED n -> print ("Process terminated by signal " ^ str_int n)
-        | Unix.WSTOPPED n -> print ("Process stopped by signal " ^ str_int n)
+        | WSTOPPED n | WSIGNALED n | WEXITED n -> { command with status = Exit n }
+
+let run_many (commands: Command.command list): Command.command list =
+    List.map run commands

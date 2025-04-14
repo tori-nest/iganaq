@@ -1,9 +1,9 @@
 let interpret (past: Schema.schema) (input: string list): Schema.schema =
 
-    let future = { past with output = { message = "" } } in
+    let future: Schema.schema = { past with output = { past.output with main = "" } } in
 
-    let say (message: string) =
-        { future with output = { message = message } } in
+    let say (message: string): Schema.schema =
+        { future with output = { future.output with main = message }} in
 
     (*
        TODO: return a schema with orders, instead of calling side-effects
@@ -20,7 +20,7 @@ let interpret (past: Schema.schema) (input: string list): Schema.schema =
     | head :: _ ->
         { future with
             output = {
-                message =
+                future.output with main =
                     ("Unrecognized command: " ^ head ^ "\n"
                         ^ future.meta.help.short)
             };
