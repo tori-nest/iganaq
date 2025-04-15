@@ -18,6 +18,7 @@ doc: "https://tori.jutty.dev/docs"
 depends: [
   "ocaml" {>= "5.3.0"}
   "dune" {>= "3.17" & >= "3.17.2"}
+  "bisect_ppx" {dev & >= "2.5.0"}
   "odoc" {with-doc}
 ]
 build: [

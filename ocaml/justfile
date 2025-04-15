@@ -1,0 +1,25 @@
+default:
+    @just --list
+
+build :
+    dune build
+
+test :
+    dune build
+    dune test
+
+format :
+    dune fmt; dune promote
+
+check-format :
+    dune build fmt
+
+cover :
+    find . -name '*.coverage' -exec rm -v '{}' ';'
+    dune build
+    dune runtest --instrument-with bisect_ppx --force
+    bisect-ppx-report html
+    bisect-ppx-report summary
+
+clean :
+    dune clean
