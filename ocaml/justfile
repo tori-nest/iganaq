@@ -11,8 +11,8 @@ test :
 format :
     dune fmt; dune promote
 
-check-format :
-    dune build fmt
+format-check fmt-ck :
+    dune fmt --preview
 
 cover :
     find . -name '*.coverage' -exec rm -v '{}' ';'
