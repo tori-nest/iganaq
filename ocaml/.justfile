@@ -1,19 +1,31 @@
 _default:
     @just --list
 
+[group('dev')]
+exec *args:
+    dune exec tori -- {{ args }}
+
+[group('dev')]
+exec-watch *args:
+    dune exec --watch tori -- {{ args }}
+
+[group('dev')]
+test-watch *args:
+    dune test --watch
+
+[group('dev')]
+format-watch *args:
+    find . -regex '.*\.mli?$' | entr -c -- dune fmt --preview
+
 # Build project with Dune
 [group('build')]
 build:
     dune build
 
-alias b := build
-
 # Cleanup build artifacts
 [group('build')]
 clean:
     dune clean
-
-alias c := clean
 
 # Generate coverage files and report
 [group('checks')]
@@ -27,20 +39,14 @@ cover : clean build
 [group('checks')]
 full-build: clean check cover
 
-alias fb := full-build
-
 # Check formatting and run tests with coverage
 [group('checks')]
 check: format-check cover
-
-alias ck := check
 
 # Run tests
 [group('checks')]
 test : build
     dune test
-
-alias t := test
 
 # Format all files
 [group('checks')]
@@ -48,14 +54,10 @@ format:
     dune fmt
     dune promote
 
-alias fmt := format
-
 # Check formatting without changing files
 [group('checks')]
 format-check:
     dune fmt --preview
-
-alias f := format-check
 
 # Show system, compiler and tooling information
 info:
