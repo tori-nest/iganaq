@@ -1,20 +1,31 @@
+set unstable
+
+dependencies := \
+    require('dune') && \
+    require('entr') && \
+    require('bisect-ppx-report')
+
 _default:
     @just --list
 
+# Build and execute
 [group('dev')]
 exec *args:
     dune exec tori -- {{ args }}
 
+# Build and execute on file changes
 [group('dev')]
 exec-watch *args:
     dune exec --watch tori -- {{ args }}
 
+# Run tests on file changes
 [group('dev')]
-test-watch *args:
+test-watch:
     dune test --watch
 
+# Format check on file changes
 [group('dev')]
-format-watch *args:
+format-watch:
     find . -regex '.*\.mli?$' | entr -c -- dune fmt --preview
 
 # Build project with Dune
