@@ -1,10 +1,5 @@
 set unstable
 
-dependencies := \
-    require('dune') && \
-    require('entr') && \
-    require('bisect-ppx-report')
-
 _default:
     @just --list
 
@@ -105,10 +100,61 @@ alias f := format
 # Check formatting without changing files
 [group('checks')]
 format-check:
-    dune fmt --preview
+    #!/usr/bin/env sh
+    find . \
+        \( -name '*.ml' -o -name '*.mli' \) \
+        \( -path './lib/*' -o -path './bin/*' \) |
+        xargs ocamlformat --check
 
 alias fck := format-check
 
+# Format specific files
+[group('checks')]
+[no-cd]
+format-file *args:
+    ocamlformat --inplace -- {{ args }}
+
+alias ff := format-file
+
+# Check formatting on specific files
+[group('checks')]
+[no-exit-message]
+[no-cd]
+format-check-file *args:
+    #!/usr/bin/env sh
+    files=$(printf '%s' "{{ args }}" | sed 's/ /\n/g')
+    for file in $files; do
+        if ocamlformat --check -- $file; then
+            echo " [ OK ] $file"
+        else
+            echo " [ !! ] $file"
+            extension=$(printf '%s' "$file" | rev | cut -d . -f 1 | rev)
+            formatted="$(basename $file .$extension).fmt.$extension"
+            ocamlformat "$file" > "$formatted"
+            delta "$file" $formatted
+        fi
+    done
+
+alias ffck := format-check-file
+
+# Cleanup formatting temporary files
+[group('checks')]
+[no-cd]
+format-file-cleanup:
+    #!/usr/bin/env sh
+    files=$(find . -regex '.*\.fmt\.[a-zA-Z0-9]+$')
+    if [ -n "$files" ]; then
+        printf '%s:\n%s\n\n%s\n%s\n > ' \
+            'Files found' \
+            "$files" \
+            '[RETURN] Remove all' '[Ctrl-C] Abort'
+        read _
+        rm -v $files
+    else
+        echo 'No temporary formatting files found'
+    fi
+
+alias ffcl := format-file-cleanup
 
 # UNGROUPED
 
@@ -121,3 +167,10 @@ info:
     @echo OS/Arch: {{ os() }} {{ arch() }}
     @echo GCC Triplet: $(gcc -dumpmachine)
     @echo Shell: {{ env('SHELL') }}
+
+dependencies := \
+    require('dune') && \
+    require('ocamlformat') && \
+    require('delta') && \
+    require('entr') && \
+    require('bisect-ppx-report')

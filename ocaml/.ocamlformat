@@ -1,4 +1,6 @@
+profile = default
 version = 0.27.0
+
 margin-check = true
 extension-indent = 4
 function-indent = 4

@@ -6,8 +6,7 @@ let read_channel channel =
         Buffer.add_char buffer '\n';
         read ()
     in
-    try read () with
-        End_of_file -> Buffer.contents buffer
+    try read () with End_of_file -> Buffer.contents buffer
 
 let read path =
     let channel = open_in path in
