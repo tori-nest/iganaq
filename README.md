@@ -18,7 +18,7 @@ As a program that can brick your system if something goes wrong, it's really imp
 
 Each language will be used to implement a simple command-line interface that fulfills the specification below. "Simple" means the goal is not to cover corner cases, but to prototype and make a decision based on language syntax, ergonomics, expressiveness, documentation, ecosystem, tooling and overall experience.
 
-                               Iganaq Napkin Spec v0
+                              Iganaq Napkin Spec v0.1
 
       A1. 'print' refers to messages for users. They MUST always be printed.
       A2. 'log' refers to messages for programmers. They MUST be printed only
@@ -44,7 +44,7 @@ Each language will be used to implement a simple command-line interface that ful
 
     B2.1. version | -v | --version -> MUST print the version as in v0.8.0
     B2.2. help | -h | --help -> MUST print '<long help>'
-    B2.3. os -> MUST print the contents of /etc/os-release
+    B2.3. os -> MUST print the OS name and MUST log contents of /etc/os-release
     B2.4. user -> MUST print the output of the 'whoami' command
     B2.5. pkg p -> MUST call the system package manager using the su_command
           to install and then uninstall package p. The user MUST be able to

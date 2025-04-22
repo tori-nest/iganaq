@@ -10,12 +10,15 @@
                 - [ ] Executability
                 - [-] `true` exits with status 0 (see note 3)
         - [x] Add logging
+            - [ ] Logs only if DEBUG is set
             - [x] Print each command executed, not just package names
         - [x] Case with no packages provided
             - [x] Prints a message
             - [x] MUST NOT run any system commands
     - [x] Unrecognized command: exit code 1
     - [x] Command `user`: print the output of `whoami`
+    - [x] Command `os`: print the OS name
+        - [x] log the contents of /etc/os-release
 
 - [ ] Refactorings
     - [ ] Simplify and analyze `System.File`
@@ -34,3 +37,7 @@
     and ensure no command is ever executed without being appended to it
  3. INS v0 A3.4 "running 'true' with exit code 0" requires the user to input
     their password every time. This should be dropped from the spec instead
+ 4. INS v0.1 changes requirement B2.3 to "MUST print the OS name and MUST log
+    contents of /etc/os-release" in order to make the logging function testable
+    without user input.
+
