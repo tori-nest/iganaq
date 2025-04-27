@@ -29,6 +29,12 @@
     - [ ] Expand unit tests coverage
     - [ ] Try out doc generation
 
+- [ ] Check out
+    - [ ] <https://github.com/janestreet/shexp>
+    - [ ] <https://erratique.ch/software/bos>
+    - [ ] <https://github.com/ninjaaron/ocaml-subprocess>
+    - [ ] <https://github.com/charlesetc/feather>
+
 ## Notes
 
  1. INS = Iganaq Napkin Spec: <https://brew.bsd.cafe/tori/iganaq#specification>

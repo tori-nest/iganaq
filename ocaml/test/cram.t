@@ -1,4 +1,4 @@
-This file tests this tori implementation against the Iganaq Napkin Spec v0
+This file tests this tori implementation against the Iganaq Napkin Spec v0.1
 
 A2. 'log' MUST print only if DEBUG is set and MUST be preceded by ' [log] '
 
