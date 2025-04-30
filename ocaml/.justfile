@@ -1,3 +1,10 @@
+dependencies := \
+    require('dune') && \
+    require('ocamlformat') && \
+    require('delta') && \
+    require('entr') && \
+    require('bisect-ppx-report')
+
 set unstable
 
 _default:
@@ -6,6 +13,13 @@ _default:
 
 # DEV
 
+# Build on changes
+[group('dev')]
+build-watch:
+    dune build --watch
+
+alias bw := build-watch
+
 # Build and execute
 [group('dev')]
 execute *args:
@@ -13,24 +27,32 @@ execute *args:
 
 alias e := execute
 
-# Build and execute on file changes
+# Build and execute on changes
 [group('dev')]
 execute-watch *args:
-    dune exec --watch tori -- {{ args }}
+    find lib bin -regex '.*\.mli?$' | entr -c -- dune exec tori -- {{ args }}
 
 alias ew := execute-watch
 
-# Run tests on file changes
+# Build and execute on changes with a timeout
+[group('dev')]
+execute-watch-timeout seconds='2' *args:
+    find lib bin -regex '.*\.mli?$' | \
+        entr -cx -- timeout {{ seconds }} dune exec tori -- {{ args }}
+
+alias ewt := execute-watch-timeout
+
+# Run tests on changes
 [group('dev')]
 test-watch:
     dune test --watch
 
 alias tw := test-watch
 
-# Format check on file changes
+# Format check on changes
 [group('dev')]
 format-watch:
-    find . -regex '.*\.mli?$' | entr -c -- dune fmt --preview
+    find lib bin -regex '.*\.mli?$' | entr -c -- dune fmt --preview
 
 alias fw := format-watch
 
@@ -167,10 +189,3 @@ info:
     @echo OS/Arch: {{ os() }} {{ arch() }}
     @echo GCC Triplet: $(gcc -dumpmachine)
     @echo Shell: {{ env('SHELL') }}
-
-dependencies := \
-    require('dune') && \
-    require('ocamlformat') && \
-    require('delta') && \
-    require('entr') && \
-    require('bisect-ppx-report')
