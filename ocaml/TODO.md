@@ -8,9 +8,9 @@
             - [ ] Validation
                 - [ ] Valid path or in `PATH`
                 - [ ] Executability
-                - [-] `true` exits with status 0 (see note 3)
+                - ~~`true` exits with status 0 (see note 3)~~
         - [x] Add logging
-            - [ ] Logs only if DEBUG is set
+            - [x] Logs only if DEBUG is set
             - [x] Print each command executed, not just package names
         - [x] Case with no packages provided
             - [x] Prints a message
@@ -45,5 +45,6 @@
     their password every time. This should be dropped from the spec instead
  4. INS v0.1 changes requirement B2.3 to "MUST print the OS name and MUST log
     contents of /etc/os-release" in order to make the logging function testable
-    without user input.
+    without user input
+ 3. As per item 3 above, INS v0.2 drops "run 'true' with exit code 0" from A3.4
 

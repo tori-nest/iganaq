@@ -18,7 +18,7 @@ As a program that can brick your system if something goes wrong, it's really imp
 
 Each language will be used to implement a simple command-line interface that fulfills the specification below. "Simple" means the goal is not to cover corner cases, but to prototype and make a decision based on language syntax, ergonomics, expressiveness, documentation, ecosystem, tooling and overall experience.
 
-                              Iganaq Napkin Spec v0.1
+                              Iganaq Napkin Spec v0.2
 
       A1. 'print' refers to messages for users. They MUST always be printed.
       A2. 'log' refers to messages for programmers. They MUST be printed only
@@ -30,8 +30,7 @@ Each language will be used to implement a simple command-line interface that ful
     A3.2. If this line is not found, the su_command MUST default to 'su -c'.
     A3.3. If it is found, the su_command used MUST be whatever was specified.
     A3.4. Whatever su_command MUST be validated once for presence at the path
-          provided or obtained from $PATH, executability and running 'true'
-          with exit code 0.
+          provided or obtained from $PATH and filesystem permission to execute
 
       A4. The 'command' is the first argument passed to the program.
       A5. The 'arguments' are all but the first argument passed to the program.
