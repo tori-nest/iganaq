@@ -1,8 +1,8 @@
-dependencies := \
-    require('dune') && \
-    require('ocamlformat') && \
-    require('delta') && \
-    require('entr') && \
+export dependencies := \
+    require('dune') + \
+    require('ocamlformat') + \
+    require('delta') + \
+    require('entr') + \
     require('bisect-ppx-report')
 
 set unstable
@@ -189,3 +189,6 @@ info:
     @echo OS/Arch: {{ os() }} {{ arch() }}
     @echo GCC Triplet: $(gcc -dumpmachine)
     @echo Shell: {{ env('SHELL') }}
+    @echo justfile dependencies: {{ dependencies }}
+
+
