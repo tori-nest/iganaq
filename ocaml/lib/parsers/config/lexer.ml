@@ -66,12 +66,12 @@ let lex (chars: char list) (position: int): token * int =
         | c -> Unknown c, position + 1
 
 let read (path: string): char lists =
-    let contents = System.File.read path in
-    let undelimited_lines = String.split_on_char '\n' contents in
+    let lines = System.File.read path
+    |> String.split_on_char '\n'
+    |> List.map String.trim in
     let lines = imap
+        (fun i s -> if i + 1 < length lines then s ^ "\n" else s) lines in
         (* adds a newline to each line end, except the last *)
-        (fun i s -> if i + 1 < length undelimited_lines then s ^ "\n" else s)
-        undelimited_lines in
     let rec to_char_lists
         (strings: string list) (position: int) (char_lists: char lists) =
         if position == length strings then char_lists
