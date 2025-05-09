@@ -1,4 +1,4 @@
-This file tests this tori implementation against the Iganaq Napkin Spec v0.1
+This file tests this tori implementation against the Iganaq Napkin Spec v0.2
 
 A2. 'log' MUST print only if DEBUG is set and MUST be preceded by ' [log] '
 
@@ -7,6 +7,14 @@ A2. 'log' MUST print only if DEBUG is set and MUST be preceded by ' [log] '
   $ test "$without_debug" != "$with_debug"
   $ echo "$with_debug" | grep -Fq " [log] "
   $ echo "$without_debug" | grep -Fqv " [log] "
+
+A3.4. [config] su_command must be validated for presence at the provided path
+or a path obtained from $PATH and filesystem permission to execute
+
+  $ echo 'su_command=sudo' > $HOME/.config/tori/tori.conf
+  $ ! which sudo >/dev/null || tori smoke 2>&1 >/dev/null
+  $ echo 'su_command=doas' > $HOME/.config/tori/tori.conf
+  $ ! which doas >/dev/null || tori smoke 2>&1 >/dev/null
 
 B2.1. version | -v | --version -> MUST print the version as in v0.8.0
 
@@ -72,4 +80,3 @@ a newline, '<short help>' and exit with status code 1
   Unrecognized command: unrecognized_command
   <short help>
   [1]
-

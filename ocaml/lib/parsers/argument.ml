@@ -1,11 +1,18 @@
 let interpret (past : Schema.schema) (input : string list) : Schema.schema =
-    let future : Schema.schema =
+    let present : Schema.schema =
         { past with output = { past.output with main = "" } }
     in
 
     let say (message : string) : Schema.schema =
-        { future with output = { future.output with main = message } }
+        { present with output = { present.output with main = message } }
     in
+
+    let configured_present = System.Process.Command.check_su_command present in
+
+    (* poor legibility, but otherwise flagged as non-exhaustive *)
+    match configured_present.meta.status with
+    | n when n <> 0 -> configured_present
+    | _ ->
 
     (*
        TODO: return a schema with orders, instead of calling side-effects
@@ -17,17 +24,17 @@ let interpret (past : Schema.schema) (input : string list) : Schema.schema =
     | "user" :: _ -> say (System.Process.Reader.read [||] "whoami").output
     | "echo" :: tail -> say (String.concat " " tail)
     | ("version" | "-v" | "--version") :: _ ->
-        say (Schema.format_version future.meta.version)
-    | ("help" | "-h" | "--help") :: _ -> say future.meta.help.long
+        say (Schema.format_version present.meta.version)
+    | ("help" | "-h" | "--help") :: _ -> say present.meta.help.long
     | head :: _ ->
         {
-          future with
+          present with
           output =
             {
-              future.output with
+              present.output with
               main =
-                "Unrecognized command: " ^ head ^ "\n" ^ future.meta.help.short;
+                "Unknown command: " ^ head ^ "\n" ^ present.meta.help.short;
             };
-          meta = { future.meta with status = 1 };
+          meta = { present.meta with status = 1 };
         }
-    | _ -> future
+    | _ -> present

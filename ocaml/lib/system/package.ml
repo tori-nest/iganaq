@@ -6,16 +6,17 @@ let merge (schema : Schema.schema) (packages : string list) : Schema.schema =
           output = { schema.output with main = "No packages provided" };
         }
     | _ ->
+        let su_command = schema.input.configuration.main.su_command in
         let commands : Process.Command.command list =
             [
               {
-                name = "doas";
-                arguments = [ "doas"; "apk"; "-i"; "add" ] @ packages;
+                name = su_command;
+                arguments = [ su_command; "apk"; "-i"; "add" ] @ packages;
                 status = Unevaluated;
               };
               {
-                name = "doas";
-                arguments = [ "doas"; "apk"; "-i"; "del" ] @ packages;
+                name = su_command;
+                arguments = [ su_command; "apk"; "-i"; "del" ] @ packages;
                 status = Unevaluated;
               };
             ]

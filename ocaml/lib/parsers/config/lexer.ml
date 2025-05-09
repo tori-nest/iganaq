@@ -1,6 +1,6 @@
 open Utilities.Aliases
 
-type key = SuCommand | Unknown
+type key = Schema.configuration_key
 type token =
     | Key of key
     | Equal

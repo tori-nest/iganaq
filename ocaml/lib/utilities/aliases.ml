@@ -8,6 +8,7 @@ let elog = Log.elog
 let str_int = string_of_int
 let chars_str = Text.chars_of_string
 let str_chars = Text.string_of_chars
+let str_char = String.make 1
 
 (* control flow & precedence *)
 let ($) = (@@)
