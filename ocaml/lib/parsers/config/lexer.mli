@@ -12,5 +12,4 @@ type token =
 val read : string -> char list list
 val scan : char list list -> token list list
 val string_of_tokens : token list list -> string
-
-exception Malformed_source of string
+val string_of_token : token -> string

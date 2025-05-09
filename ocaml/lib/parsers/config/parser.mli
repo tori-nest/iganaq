@@ -1,7 +1,3 @@
-type token = Lexer.token
-type schema = Schema.schema
-type config = Schema.main
-
-val parse : token list -> config
-val apply : schema -> config -> schema
-val string_of_config : config -> string
+val parse : Lexer.token list -> Schema.main
+val apply : Schema.schema -> Schema.main -> Schema.schema
+val string_of_config : Schema.main -> string

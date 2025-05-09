@@ -10,19 +10,26 @@ type token =
     | Unknown of char
     | End
 
+    (*
+        TODO: This module's functions rely too much on matching a string, so
+        there are no exhaustion checks and it's entirely up to the human to
+        not overlook a variant, possibly leading to unhandled cases. Either
+        refactor, add tests that will fail if a variant is unhandled, or both
+    *)
+
 let lex_keyword (literal: string): token =
     match literal with
     | "su_command" -> Key SuCommand
+    | "su_command_quoted" -> Key SuCommandQuoted
     | _ -> Key Unknown
 
 let lex_keyvalue (literal: string): token = Value literal
-
-exception Malformed_source of string
 
 let string_of_token (token: token): string =
     match token with
     | Key k -> (match k with
         | SuCommand -> "[ KEY: su_command ]"
+        | SuCommandQuoted -> "[ KEY: su_command_quoted ]"
         | Unknown -> "[ UNKNOWN KEY ]")
     | Equal -> "[ OP: equal ]"
     | Value v -> "[ VAL: " ^ v ^ " ]"
@@ -66,6 +73,7 @@ let lex (chars: char list) (position: int): token * int =
         | c -> Unknown c, position + 1
 
 let read (path: string): char lists =
+    if not $ System.File.can_read path then [[]] else
     let lines = System.File.read path
     |> String.split_on_char '\n'
     |> List.map String.trim in
@@ -89,4 +97,6 @@ let scan_line (input: char list): token list =
     reverse $ to_tokens input 0 []
 
 let scan (char_lists: char lists): token lists =
-    rmap (scan_line) char_lists $: [End]
+    let tokens = rmap (scan_line) char_lists $: [End] in
+    elog $ string_of_tokens tokens;
+    tokens

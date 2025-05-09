@@ -1,16 +1,24 @@
-open Utilities.Aliases
-
 type version = { major : int; minor : int; patch : int }
 type help = { short : string; long : string }
-type meta = { version : version; help : help; status : int }
+type error_level = Clear | Warning | Error | Fatal
+type paths = { configuration : string }
+type defaults = { paths: paths }
+type meta = {
+    version : version;
+    help : help;
+    error_level: error_level;
+    status : int;
+    defaults : defaults;
+}
 
 type output = { main : string; log : string }
 
 type os = Unknown | FreeBSD | Void | Alpine
 type host = { os : os; name : string }
 
-type configuration_key = SuCommand | Unknown
-type main = { su_command : string; }
+type default_bool = Default | true | false
+type configuration_key = SuCommand | SuCommandQuoted | Unknown
+type main = { su_command : string list; su_command_quoted: default_bool }
 type configuration = { main : main; }
 type input = { configuration: configuration; }
 
@@ -27,12 +35,19 @@ let origin : schema = {
             short = "<short help>";
             long = "<long help>";
         };
+        error_level = Clear;
         status = 0;
+        defaults = {
+            paths = {
+                configuration = Unix.getenv "HOME" ^ "/.config/tori/tori.conf";
+            };
+        };
     };
     input = {
         configuration = {
             main = {
-                su_command = "su -c"
+                su_command = [ "su"; "-c" ];
+                su_command_quoted = Default;
             };
         };
     };
@@ -49,11 +64,18 @@ let origin : schema = {
 }
 
 let format_version (version : version) : string =
-    "v" ^ str_int version.major ^
-    "." ^ str_int version.minor ^
-    "." ^ str_int version.patch
+    "v" ^ string_of_int version.major ^
+    "." ^ string_of_int version.minor ^
+    "." ^ string_of_int version.patch
 
 let string_of_key key =
     match key with
         | SuCommand -> "su_command"
+        | SuCommandQuoted -> "su_command_quoted"
         | Unknown -> "<unknown key>"
+
+let string_of_default_bool (b: default_bool) =
+    match b with
+    | true -> "true"
+    | false -> "false"
+    | Default -> "default"

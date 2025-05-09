@@ -27,12 +27,12 @@ In this grammar, `digit` implies `decimal digit`. Spaces between the key and the
     - [x] Add log function
         - [x] Output begins with ` [log] `
         - [x] Only prints if `DEBUG` is set
-    - [ ] Add interactive pkg tests (INS[^1] v0 B2.5[^2])
     - [x] Get su command from `$XDG_CONFIG_HOME/tori/tori.conf`
         - [ ] Default to `su -c`
-            - [ ] Handle fatal `Sys_error` if `tori.conf` doesn't exist
-            - [ ] Handle checking `su -c` default with `which` when `tori.conf` exists but `su_command` is absent in it
-            - [ ] Properly handle a compose `su_command` such as `su -c` in `System.Package`
+            - [x] Handle fatal `Sys_error` if `tori.conf` doesn't exist
+            - [x] Handle checking `su -c` default with `which` when `tori.conf` exists but `su_command` is absent in it
+            - [x] Properly handle a compose `su_command` such as `su -c` in `System.Package`
+            - [ ] Properly handle dependent options
         - [x] Validation
             - [x] Valid path or in `PATH`
             - [x] Executability
@@ -55,7 +55,10 @@ In this grammar, `digit` implies `decimal digit`. Spaces between the key and the
 - [ ] Additionals
     - [ ] Create remaining interface files
     - [ ] Expand unit tests coverage
+    - [ ] Add interactive pkg tests (INS[^1] v0 B2.5[^2])
     - [ ] Try out doc generation
+    - [ ] Detect `su_command` from PATH before falling back to su
+    - [ ] Raise on duplicate keys, currently shadowing
 
 - [ ] Check out
     - [ ] <https://github.com/janestreet/shexp>
