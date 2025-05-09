@@ -1,4 +1,4 @@
 (lang dune 3.17)
 (context default)
 
-(env (dev (flags (:standard -w +A-40-42))))
+(env (dev (flags (:standard -w +A-23-40-42))))
