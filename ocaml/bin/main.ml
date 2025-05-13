@@ -1,5 +1,6 @@
 module ConfigFetcher = Tori.Parsers.Config.Fetcher
 
+
 let () =
 
     match Array.to_list Sys.argv with
@@ -12,3 +13,4 @@ let () =
         in
         exit future.meta.status
     | [] -> assert false
+
