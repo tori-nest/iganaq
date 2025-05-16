@@ -74,8 +74,14 @@ let string_of_key key =
         | SuCommandQuoted -> "su_command_quoted"
         | Unknown -> "<unknown key>"
 
-let string_of_default_bool (b: default_bool) =
+let string_of_default_bool (b: default_bool): string =
     match b with
     | true -> "true"
     | false -> "false"
     | Default -> "default"
+
+let default_bool_of_string (s: string): default_bool =
+    match s with
+    | "true" -> true
+    | "false" -> false
+    | _ -> Default

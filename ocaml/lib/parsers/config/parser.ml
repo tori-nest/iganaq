@@ -16,52 +16,37 @@ let parse_boolean (key: key) (value: string): Schema.default_bool =
     | _ -> raise $ Malformed_source
         (Schema.string_of_key key ^ " must be either true or false")
 
-let update_and_log ?message config key (value: string) : Schema.main =
-    let message = match message with
-        | Some s -> " (" ^ s  ^ ")"
-        | None -> ""
-    in
-    elog $ "[c.parser.update] " ^ Schema.string_of_key key ^ " <- " ^ value ^ message;
-    config
+let check_sanity (config: Schema.main): Schema.main =
 
-let update (past_config: Schema.main) key (value: string): Schema.main =
     let default = Schema.origin.input.configuration.main in
+
+    (* Ignore su_command_quoted value if su_command is the default,
+       and default to unquoted if a custom su_command is set *)
+    match config.su_command_quoted, config.su_command with
+    | (true|false), su_command when su_command == default.su_command ->
+        elog $ "[c.parser.check_sanity] " ^
+        "Ignoring configuration key su_command_quoted: su_command is unset," ^
+        " and the default su_command needs quoting";
+        { config with su_command_quoted = default.su_command_quoted }
+    | (true|false), _ -> config
+    | Default, su_command when su_command <> default.su_command ->
+        elog $ "[c.parser.check_sanity] " ^
+        "Setting su_command_quoted to false: su_command is set, but " ^
+        "su_command_quoted isn't. If it needs quoting, please set it to true";
+        { config with su_command_quoted = false }
+    | Default, _ -> config
+
+let update config key (value: string): Schema.main =
+    elog $ "[c.parser.update] Matching value '" ^ value ^ "'";
     match key with
     | Schema.SuCommand ->
-        let default = Schema.origin.input.configuration.main in
-        let as_list = String.split_on_char ' ' value in
-        (* user set su_command, but not if it's quoted -> default to unquoted *)
-
-        elog $ "value -> '" ^ value ^ "' <> '" ^
-            String.concat " " default.su_command ^ "' <- default";
-        elog $ "past_config.su_command_quoted -> '" ^
-            str_dbool past_config.su_command_quoted ^ "' == '" ^
-            str_dbool default.su_command_quoted ^ "' <- default";
-
-        if value <> String.concat " " default.su_command &&
-            past_config.su_command_quoted == default.su_command_quoted
-        then
-            update_and_log {
-                past_config with su_command = as_list;
-                su_command_quoted = false
-            } key value ~message:("Defaulting to unquoted: set su_command_quoted to true if your su command needs quoting"
-                )
-        else
-            update_and_log { past_config with su_command = as_list } key value ~message:("both su_command and su_command_quoted set by user")
-
-
-    | SuCommandQuoted -> (
-        if past_config.su_command == default.su_command then
-            update_and_log { past_config with su_command_quoted = true }
-                key "true" ~message: ("configuration value ignored: " ^
-                "su_command is the default and 'su' requires quoting")
-        else
-            let parsed_boolean = parse_boolean key value in
-            update_and_log
-                { past_config with su_command_quoted = parsed_boolean }
-                key (str_dbool parsed_boolean))
+        { config with Schema.su_command = String.split_on_char ' ' value }
+    | SuCommandQuoted ->
+        { config with
+            Schema.su_command_quoted = parse_boolean key value }
     | Unknown ->
-        update_and_log past_config key value
+        elog $ "[c.parser.update] Dropped value: unknown key";
+        config
 
 let parse tokens: Schema.main =
     let rec parse_tokens tokens config ready_key =
@@ -84,6 +69,7 @@ let parse tokens: Schema.main =
 
     in
     parse_tokens tokens default_config None
+    |> check_sanity
 
 let apply (origin: Schema.schema) (config: Schema.main): Schema.schema =
     { origin with input = {

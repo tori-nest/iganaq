@@ -28,11 +28,12 @@ In this grammar, `digit` implies `decimal digit`. Spaces between the key and the
         - [x] Output begins with ` [log] `
         - [x] Only prints if `DEBUG` is set
     - [x] Get su command from `$XDG_CONFIG_HOME/tori/tori.conf`
-        - [ ] Default to `su -c`
+        - [x] Default to `su -c`
             - [x] Handle fatal `Sys_error` if `tori.conf` doesn't exist
             - [x] Handle checking `su -c` default with `which` when `tori.conf` exists but `su_command` is absent in it
             - [x] Properly handle a compose `su_command` such as `su -c` in `System.Package`
-            - [ ] Properly handle dependent options
+            - [x] Properly handle dependent options
+            - [ ] Write tests
         - [x] Validation
             - [x] Valid path or in `PATH`
             - [x] Executability
