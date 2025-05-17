@@ -8,6 +8,17 @@ A2. 'log' MUST print only if DEBUG is set and MUST be preceded by ' [log] '
   $ echo "$with_debug" | grep -Fq " [log] "
   $ echo "$without_debug" | grep -Fqv " [log] "
 
+A3.2. if su_command is unset, the default must be 'su -c'
+
+  $ echo 'simulate=true' > $HOME/.config/tori/tori.conf
+  $ DEBUG=1 tori pkg xterm 2>&1 | grep -Fq 'su -c'
+
+A3.3. if su_command is set, su_command must be the set value
+
+  $ echo 'simulate=true' > $HOME/.config/tori/tori.conf
+  $ echo 'su_command=doas' >> $HOME/.config/tori/tori.conf
+  $ DEBUG=1 tori pkg xterm 2>&1 | grep -Fq 'doas'
+
 A3.4. [config] su_command must be validated for presence at the provided path
 or a path obtained from $PATH and filesystem permission to execute
 
@@ -40,7 +51,7 @@ B2.2. help | -h | --help -> MUST print '<long help>'
 
 B2.3. os -> MUST print the os name
 
-  $ os_name=$(cat /etc/os-release | grep '^NAME=' | cut -d = -f 2 | sed 's/"//g')
+  $ os_name=$(cat /etc/os-release | grep '^NAME=' | cut -d= -f 2 | sed 's/"//g')
   $ tori_os=$(tori os)
   $ test -n "$os_name"
   $ test -n "$tori_os"

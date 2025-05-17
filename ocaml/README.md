@@ -23,7 +23,7 @@ In this grammar, `digit` implies `decimal digit`. Spaces between the key and the
 
 ## Task list
 
-- [ ] Spec requirements
+- [x] Spec requirements
     - [x] Add log function
         - [x] Output begins with ` [log] `
         - [x] Only prints if `DEBUG` is set
@@ -34,7 +34,7 @@ In this grammar, `digit` implies `decimal digit`. Spaces between the key and the
             - [x] Properly handle a compose `su_command` such as `su -c` in `System.Package`
             - [x] Properly handle dependent options
             - [x] Implement log levels
-            - [ ] Write tests
+            - [x] Write tests
         - [x] Validation
             - [x] Valid path or in `PATH`
             - [x] Executability
