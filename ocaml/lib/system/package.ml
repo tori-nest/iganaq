@@ -1,7 +1,7 @@
 open Utilities.Aliases
 
-type install = { interactive: string list; batch: string list }
-type manager = { install: install }
+type command = { interactive: string list; batch: string list }
+type manager = { install: command; remove: command }
 type manager_table = { apk: manager }
 
 let table: manager_table = {
@@ -9,6 +9,10 @@ let table: manager_table = {
         install = {
             interactive = [ "apk"; "-i"; "add"; ];
             batch = [ "apk"; "--no-interactive"; "add"; ];
+        };
+        remove = {
+            interactive = [ "apk"; "-i"; "del"; ];
+            batch = [ "apk"; "--no-interactive"; "del"; ];
         }
     }
 }
@@ -35,20 +39,28 @@ let merge (schema : Schema.schema) (packages : string list) : Schema.schema =
               };
               {
                 name = su_command;
-                arguments = su schema $ manager.install.interactive @ packages;
+                arguments = su schema $ manager.remove.interactive @ packages;
                 status = Unevaluated;
               };
             ]
         in
 
-        let ran = Process.Fork.run_many commands in
-        let formatted_ran = Process.Command.format_many ran in
+        let simulate = schema.input.configuration.main.simulate in
+        let log_output =
+            if simulate then
+                "Would execute:\n" ^
+                String.concat "\n" (Process.Command.format_many commands)
+            else
+                let ran =
+                    if simulate then [] else Process.Fork.run_many commands in
+                "Executed:\n" ^
+                String.concat "\n" (Process.Command.format_many ran) in
 
         {
           schema with
           output =
             {
               schema.output with
-              log = "Done:\n" ^ String.concat "\n" formatted_ran;
+              log = log_output;
             };
         }

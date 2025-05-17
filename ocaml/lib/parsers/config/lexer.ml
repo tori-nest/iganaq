@@ -21,6 +21,8 @@ let lex_keyword (literal: string): token =
     match literal with
     | "su_command" -> Key SuCommand
     | "su_command_quoted" -> Key SuCommandQuoted
+    | "interactive" -> Key Interactive
+    | "simulate" -> Key Simulate
     | _ -> Key Unknown
 
 let lex_keyvalue (literal: string): token = Value literal
@@ -31,6 +33,7 @@ let string_of_token (token: token): string =
         | SuCommand -> "[ KEY: su_command ]"
         | SuCommandQuoted -> "[ KEY: su_command_quoted ]"
         | Interactive -> " [ KEY: interactive ]"
+        | Simulate -> " [ KEY: simulate ]"
         | Unknown -> "[ UNKNOWN KEY ]")
     | Equal -> "[ OP: equal ]"
     | Value v -> "[ VAL: " ^ v ^ " ]"

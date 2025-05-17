@@ -30,20 +30,14 @@ let check (config: Schema.main): Schema.main =
         { config with su_command_quoted = false }
     | Default, _ -> config
 
-let update config key (value: string): Schema.main =
+let update (config: Schema.main) (key: Lexer.key) (value: string): Schema.main =
     elog ~context:Parsing $ "[c.parser.update] Matching value '" ^ value ^ "'";
     match key with
-    | Schema.SuCommand ->
-        { config with Schema.su_command = String.split_on_char ' ' value }
-    | SuCommandQuoted ->
-        { config with
-            Schema.su_command_quoted = parse_boolean key value }
-    | Interactive ->
-        { config with
-            Schema.interactive = bool_of_string value }
-    | Unknown ->
-        elog ~context:Parsing $ "[c.parser.update] Dropped value: unknown key";
-        config
+    | SuCommand -> { config with su_command = String.split_on_char ' ' value }
+    | SuCommandQuoted -> { config with su_command_quoted = parse_boolean key value }
+    | Interactive -> { config with interactive = bool_of_string value }
+    | Simulate -> { config with simulate = bool_of_string value }
+    | Unknown -> elog ~context:Parsing $ "[c.parser.update] Dropped value: unknown key"; config
 
 let parse tokens: Schema.main =
     let rec parse_tokens tokens config ready_key =
