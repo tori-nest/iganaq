@@ -30,6 +30,7 @@ let string_of_token (token: token): string =
     | Key k -> (match k with
         | SuCommand -> "[ KEY: su_command ]"
         | SuCommandQuoted -> "[ KEY: su_command_quoted ]"
+        | Interactive -> " [ KEY: interactive ]"
         | Unknown -> "[ UNKNOWN KEY ]")
     | Equal -> "[ OP: equal ]"
     | Value v -> "[ VAL: " ^ v ^ " ]"

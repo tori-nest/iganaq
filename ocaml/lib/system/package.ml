@@ -1,6 +1,20 @@
 open Utilities.Aliases
 
+type install = { interactive: string list; batch: string list }
+type manager = { install: install }
+type manager_table = { apk: manager }
+
+let table: manager_table = {
+    apk = {
+        install = {
+            interactive = [ "apk"; "-i"; "add"; ];
+            batch = [ "apk"; "--no-interactive"; "add"; ];
+        }
+    }
+}
+
 let su = Process.Su.elevate_wrapped
+let manager = table.apk
 
 let merge (schema : Schema.schema) (packages : string list) : Schema.schema =
     match packages with
@@ -16,12 +30,12 @@ let merge (schema : Schema.schema) (packages : string list) : Schema.schema =
             [
               {
                 name = su_command;
-                arguments = su schema $ [ "apk"; "-i"; "add" ] @ packages;
+                arguments = su schema $ manager.install.interactive @ packages;
                 status = Unevaluated;
               };
               {
                 name = su_command;
-                arguments = su schema $ [ "apk"; "-i"; "del" ] @ packages;
+                arguments = su schema $ manager.install.interactive @ packages;
                 status = Unevaluated;
               };
             ]

@@ -17,8 +17,12 @@ type os = Unknown | FreeBSD | Void | Alpine
 type host = { os : os; name : string }
 
 type default_bool = Default | true | false
-type configuration_key = SuCommand | SuCommandQuoted | Unknown
-type main = { su_command : string list; su_command_quoted: default_bool }
+type configuration_key = SuCommand | SuCommandQuoted | Interactive | Unknown
+type main = {
+    su_command : string list;
+    su_command_quoted: default_bool;
+    interactive: bool
+}
 type configuration = { main : main; }
 type input = { configuration: configuration; }
 
@@ -48,6 +52,7 @@ let origin : schema = {
             main = {
                 su_command = [ "su"; "-c" ];
                 su_command_quoted = Default;
+                interactive = true;
             };
         };
     };
@@ -72,6 +77,7 @@ let string_of_key key =
     match key with
         | SuCommand -> "su_command"
         | SuCommandQuoted -> "su_command_quoted"
+        | Interactive -> "interactive"
         | Unknown -> "<unknown key>"
 
 let string_of_default_bool (b: default_bool): string =

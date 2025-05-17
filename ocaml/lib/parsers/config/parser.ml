@@ -38,6 +38,9 @@ let update config key (value: string): Schema.main =
     | SuCommandQuoted ->
         { config with
             Schema.su_command_quoted = parse_boolean key value }
+    | Interactive ->
+        { config with
+            Schema.interactive = bool_of_string value }
     | Unknown ->
         elog ~context:Parsing $ "[c.parser.update] Dropped value: unknown key";
         config
