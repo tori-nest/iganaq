@@ -70,10 +70,13 @@ In this grammar, `digit` implies `decimal digit`. Spaces between the key and the
 
 ## References
 
-- ISO 14977 EBNF Notation: <https://www.cl.cam.ac.uk/~mgk25/iso-14977.pdf>
+- ISO 14977 EBNF Notation: <https://www.iso.org/standard/26153.html>
 - Comparison of BNF notations: <https://www.cs.man.ac.uk/~pjj/bnf/ebnf.html>
 - W3C ABNF Notation: <https://www.w3.org/Notation.html>
+- W3C EBNF Notation from the XML 1.0 Spec: <https://www.w3.org/TR/xml/#sec-notation>
 - IETF RFC 5234 ABNF Notation (replaces 4234, 2234): <https://www.rfc-editor.org/rfc/rfc5234>
+- Don’t Use ISO/IEC 14977:1996 EBNF: <https://dwheeler.com/essays/dont-use-iso-14977-ebnf.html>
+    - <https://lobste.rs/s/836dy7/don_t_use_iso_iec_14977_extended_backus>
 
 ### Notes
 
