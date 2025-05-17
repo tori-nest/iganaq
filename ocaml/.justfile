@@ -44,7 +44,7 @@ alias ewt := execute-watch-timeout
 
 # Run tests on changes
 [group('dev')]
-test-watch:
+test-watch: build
     dune test --watch
 
 alias tw := test-watch
@@ -91,7 +91,7 @@ alias c := check
 [group('checks')]
 cover: clean build
     find . -name '*.coverage' -exec rm -v '{}' ';'
-    dune runtest --instrument-with bisect_ppx --force
+    dune test --instrument-with bisect_ppx --force
     bisect-ppx-report html
     bisect-ppx-report summary
 
