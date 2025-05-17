@@ -98,5 +98,5 @@ let scan_line (input: char list): token list =
 
 let scan (char_lists: char lists): token lists =
     let tokens = rmap (scan_line) char_lists $: [End] in
-    elog $ string_of_tokens tokens;
+    elog ~context:Parsing $ string_of_tokens tokens;
     tokens

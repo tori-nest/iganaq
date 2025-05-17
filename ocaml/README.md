@@ -33,6 +33,7 @@ In this grammar, `digit` implies `decimal digit`. Spaces between the key and the
             - [x] Handle checking `su -c` default with `which` when `tori.conf` exists but `su_command` is absent in it
             - [x] Properly handle a compose `su_command` such as `su -c` in `System.Package`
             - [x] Properly handle dependent options
+            - [x] Implement log levels
             - [ ] Write tests
         - [x] Validation
             - [x] Valid path or in `PATH`

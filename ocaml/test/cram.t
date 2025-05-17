@@ -3,7 +3,7 @@ This file tests this tori implementation against the Iganaq Napkin Spec v0.2
 A2. 'log' MUST print only if DEBUG is set and MUST be preceded by ' [log] '
 
   $ without_debug=$(tori os 2>&1)
-  $ with_debug=$(DEBUG=1 tori os 2>&1)
+  $ with_debug=$(DEBUG=os tori os 2>&1)
   $ test "$without_debug" != "$with_debug"
   $ echo "$with_debug" | grep -Fq " [log] "
   $ echo "$without_debug" | grep -Fqv " [log] "
@@ -12,9 +12,9 @@ A3.4. [config] su_command must be validated for presence at the provided path
 or a path obtained from $PATH and filesystem permission to execute
 
   $ echo 'su_command=sudo' > $HOME/.config/tori/tori.conf
-  $ ! which sudo >/dev/null || tori smoke 2>&1 >/dev/null
+  $ ! which sudo >/dev/null || tori 2>&1 >/dev/null
   $ echo 'su_command=doas' > $HOME/.config/tori/tori.conf
-  $ ! which doas >/dev/null || tori smoke 2>&1 >/dev/null
+  $ ! which doas >/dev/null || tori 2>&1 >/dev/null
 
 B2.1. version | -v | --version -> MUST print the version as in v0.8.0
 
@@ -48,7 +48,7 @@ B2.3. os -> MUST print the os name
 
 B2.3. os -> MUST log the contents of /etc/os-release
 
-  $ tori_os=$(DEBUG=1 tori os 2>&1)
+  $ tori_os=$(DEBUG=os tori os 2>&1)
   $ test -n "$tori_os"
   $ echo "$tori_os" | grep -qFf /etc/os-release
 

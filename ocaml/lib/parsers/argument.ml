@@ -23,7 +23,7 @@ let interpret (past : Schema.schema) (arguments : string list) : Schema.schema =
             {
               past.output with
               main =
-                "Unknown command: " ^ head ^ "\n" ^ past.meta.help.short;
+                "Unrecognized command: " ^ head ^ "\n" ^ past.meta.help.short;
             };
           meta = { past.meta with status = 1 };
         }
